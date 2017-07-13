@@ -1,5 +1,7 @@
 # Coin classification for [OCRE](http://numismatics.org/ocre/)
 
+![Obverse of DE-MUS-814819/18200444: Münzkabinett Berlin](http://ww2.smb.museum/mk_edit/images/n0/457/vs_opt.jpg)
+
 > ### Authors:
 > New Hampshire University, Daniel Hasse <br/>
 > Harvard University, Rodolfo Ferro and Carlos Outeiral
