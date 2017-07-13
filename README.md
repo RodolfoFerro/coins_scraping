@@ -1,7 +1,7 @@
 # Coin classification for [OCRE](http://numismatics.org/ocre/)
 
-> Authors:
-> New Hampshire University, Daniel Hasse
+> ### Authors:
+> New Hampshire University, Daniel Hasse <br/>
 > Harvard University, Rodolfo Ferro and Carlos Outeiral
 
 This repo contains the job done so far for the [OCRE](http://numismatics.org/ocre/) coin classificaiton project.
