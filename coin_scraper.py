@@ -13,7 +13,8 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
-
+import wget
+import os
 
 # =========================================================
 # Defining or funtions:
@@ -78,6 +79,7 @@ def data_extraction(soup):
 
 def clean_df(df):
     """Function to drop any NaN values (!img urls)."""
+    df.index += 1
     return df.dropna()
 
 
@@ -86,18 +88,51 @@ def save_df(df, path):
     df.to_csv("dataframe.csv")
     return
 
+def download_images(df):
+    """Function to download the images."""
+    heads = df['Obverse_URL']
+    tails = df['Reverse_URL']
+
+    if not os.path.exists('./images/'):
+        os.mkdir('./images/')
+    os.chdir('./images')
+
+    for i, (url1, url2) in enumerate(zip(heads, tails)):
+
+        if not os.path.exists('./images/heads{:05d}.jpg'.format(i)):
+            try:
+                file1 = wget.download(url1)
+                ext1 = file1[file1.rfind('.'):]
+                os.rename(file1, 'heads{:05d}{}'.format(i+1, ext1))
+            except Exception:
+                print('Could not download heads{:05d} from {}'.format(i, url1))
+
+        if not os.path.exists('./images/tails{:05d}.jpg'.format(i)):
+            try:
+                file2 = wget.download(url2)
+                ext2 = file2[file2.rfind('.'):]
+                os.rename(file2, 'tails{:05d}{}'.format(i+1, ext2))
+            except Exception:
+                print('Could not download tails{:05d} from {}'.format(i, url2))
+
+    return
+
 
 # =========================================================
 # MAIN
 # =========================================================
 
 if __name__ == '__main__':
-    # Number of pages to be extracted:
-    number_pages = 1
+    # # Number of pages to be extracted:
+    # number_pages = 590
 
-    # Scraper:
-    df = coin_scraper(number_pages)
-    df = clean_df(df)
+    # # Scraper:
+    # df = coin_scraper(number_pages)
+    # df = clean_df(df)
 
-    # Save into csv:
-    save_df(df, "coins.csv")
+    # # Save into csv:
+    # save_df(df)
+
+    # Download images
+    df = pd.read_csv('dataframe.csv')
+    download_images(df)
