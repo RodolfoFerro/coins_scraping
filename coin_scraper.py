@@ -83,7 +83,7 @@ def clean_df(df):
     return df.dropna()
 
 
-def save_df(df, path):
+def save_df(df):
     """Function to save the obtained dataframe."""
     df.to_csv("dataframe.csv")
     return
@@ -123,16 +123,15 @@ def download_images(df):
 # =========================================================
 
 if __name__ == '__main__':
-    # # Number of pages to be extracted:
-    # number_pages = 590
+    # Number of pages to be extracted:
+    number_pages = 590
 
-    # # Scraper:
-    # df = coin_scraper(number_pages)
-    # df = clean_df(df)
+    # Scraper:
+    df = coin_scraper(number_pages)
+    df = clean_df(df)
 
-    # # Save into csv:
-    # save_df(df)
+    # Save into csv:
+    save_df(df)
 
     # Download images
-    df = pd.read_csv('dataframe.csv')
     download_images(df)

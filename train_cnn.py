@@ -1,20 +1,8 @@
 import time
 import os
-import messup
 import tensorflow as tf
 from cnn import CNN
-
-def generateTrainingInputs(input_x, input_y, nvars):
-
-    for point in input_x:
-
-        messedupImages = []
-
-        for _ in range(nvars):
-
-            img = removeBlackBorder(rotateImage(point))
-            img2 = blurImage(img2)
-            img3 = 
+from preprocessing import loadData
 
 
 def train(cnn, input_x, input_y, nepochs, batch_size, check_dir):
@@ -47,5 +35,4 @@ def train(cnn, input_x, input_y, nepochs, batch_size, check_dir):
 if __name__ == '__main__':
 
     cnn = CNN()
-    inp
     train(cnn, input_x, input_y, 10000, 100, './')
