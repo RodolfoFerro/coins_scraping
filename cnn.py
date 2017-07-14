@@ -7,13 +7,17 @@ class CNN(object):
     def __init__(self, name):
 
         self.defineCore()
-        self.sess = tf.Session()
         self.id = name
+        self.defineCore()
 
-    def denominationModel(self):
+    def setDenominationModel(self):
+
+        W = self.set_variable('denomination_weights', [16*16*135, 13])
+        b = self.set_variable('denomination_biases', [13])
+        pred = tf.nn.bias_add(tf.matmul(self.final, W), b)
 
         loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y, logits=self.predictions))
+            tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y, logits=pred))
 
         self.global_step = tf.Variable([0], dtype=tf.int32, trainable=False)
         self.learning_rate = tf.train.exponential_decay(
@@ -28,10 +32,14 @@ class CNN(object):
         self.init = tf.global_variables_initializer()
         self.sess.run(self.init)
 
-    def mintModel(self):
+    def setMintModel(self):
+
+        W = self.set_variable('mint_weights', [16*16*135, 19])
+        b = self.set_variable('mint_biases', [19])
+        pred = tf.nn.bias_add(tf.matmul(self.final, W), b)
 
         loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y, logits=self.predictions))
+            tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y, logits=pred))
 
         self.global_step = tf.Variable([0], dtype=tf.int32, trainable=False)
         self.learning_rate = tf.train.exponential_decay(
@@ -81,60 +89,6 @@ class CNN(object):
         ckpt = os.path.join(check_dir, name)
         self.saver = tf.train.Saver()
         self.saver.restore(self.sess, ckpt)
-
-    def mintToOneHot(cat):
-
-        onehot = np.zeros(13)
-
-        i = None
-        i = 0 if cat == 'Emerita' else i
-        i = 1 if cat == 'Caesaraugusta' else i
-        i = 2 if cat == 'Colonia Patricia' else i
-        i = 3 if cat == 'Rome' else i
-        i = 4 if cat == 'Peloponnesus' else i
-        i = 5 if cat == 'Samos' else i
-        i = 6 if cat == 'Ephesus' else i
-        i = 7 if cat == 'Pergamum' else i
-        i = 8 if cat == 'Antioch' else i
-        i = 9 if cat == 'Cyrene' else i
-        i = 10 if cat == 'Caesareia in Cappadocia' else i
-        i = 11 if cat == 'Commagene' else i
-        i = 12 if cat == 'Carthage' else i
-        i = 13 if cat == 'Gallia' else i
-        i = 14 if cat == 'Vindobona' else i
-        i = 15 if cat == 'Tarraco' else i
-        i = 16 if cat == 'Narbo' else i
-        i = 17 if cat == 'Alexandreia' else i
-        i = 18 if cat == 'Asia Minor' else i
-
-        if i is not None:
-            onehot[i] = 1
-
-        return onehot
-
-    def denToOneHot(cat):
-
-        onehot = np.zeros(13)
-
-        i = None
-        i = 0 if cat == 'Quinarius' else i
-        i = 1 if cat == 'Denarius' else i
-        i = 2 if cat == 'As' else i
-        i = 3 if cat == 'Aureus' else i
-        i = 4 if cat == 'Quinarius aureus' else i
-        i = 5 if cat == 'Dupondius' else i
-        i = 6 if cat == 'Quadrans' else i
-        i = 7 if cat == 'Sestertius' else i
-        i = 8 if cat == 'Semis' else i
-        i = 9 if cat == 'Cistophorus' else i
-        i = 10 if cat == 'Drachma' else i
-        i = 11 if cat == 'Didrachm' else i
-        i = 12 if cat == 'Hemidrachm' else i
-
-        if i is not None:
-            onehot[i] = 1
-
-        return onehot
 
     def convpool(self, name, kernel, input_tensor):
 
