@@ -3,22 +3,28 @@
 ![Obverse of DE-MUS-814819/18200444: Münzkabinett Berlin](http://ww2.smb.museum/mk_edit/images/n0/457/vs_opt.jpg)
 
 > ### Authors:
-> New Hampshire University, Daniel Hasse <br/>
 > Harvard University, Rodolfo Ferro and Carlos Outeiral
+> New Hampshire University, Daniel Hasse <br/>
 
 ## Description 📝
 
-This repo contains the job done so far for the [OCRE](http://numismatics.org/ocre/) coin classificaiton project.
+This repo contains the job done so far for the [OCRE](http://numismatics.org/ocre/) coin classification project.
 
 The project consists on ... (coin classification, should add something interesting here...)
 
 ## Requirements 💻
 
+### Execution
 * [Python 3.x](https://www.python.org/)
 * [Pandas](http://pandas.pydata.org/)
 * [Tensorflow](https://www.tensorflow.org/)
 * [OpenCV](http://opencv.org/)
 * [Jupyter notebook](http://jupyter.org/) (recommended)
+
+### Scraping
+* [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/)
+* [wget](https://pypi.python.org/pypi/wget)
+
 
 ## Development phases ⚙️
 
