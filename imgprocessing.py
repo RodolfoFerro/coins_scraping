@@ -42,3 +42,14 @@ def blurImage(img, n):
     kernel = np.ones((n, n), np.float32)/n**2
     dist = cv2.filter2D(img, -1, kernel)
     return dist
+
+def edgeGradient(img, sigma=0.33):
+	med = np.median(img)
+	low, upp  = int(max(0, (1.0-sigma)*med)), int(min(255, (1.0+sigma)*med))
+	edg  = cv2.Canny(img, low, upp)
+	return edg
+
+def adjustGamma(image, gamma=1.0):
+	invGamma = 1.0 / gamma
+	table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
+	return cv2.LUT(image, table)
