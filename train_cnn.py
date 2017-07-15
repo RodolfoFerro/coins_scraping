@@ -91,8 +91,9 @@ def denToOneHot(cat):
 if __name__ == '__main__':
 
     cnn = CNN()
+    props, imgs = loadData('dataframe.csv', './images')
+
     cnn.setMintModel()
     
     train(cnn, input_x, input_y, 10000, 100, './')
 
-    cnn.setMintModel()

@@ -7,6 +7,7 @@ import random
 def loadData(datafile, imgfolder):
 
 	df = pd.read_csv(datafile)
+	pwd = os.getcwd()
 	os.chdir(imgfolder)
 	props = []
 	imgs = []
@@ -23,6 +24,8 @@ def loadData(datafile, imgfolder):
 		mheads = messupImage(heads)
 		mtails = messupImage(tails)
 		imgs.append([mheads, mtails])
+
+	os.chdir(pwd)
 
 	return props, imgs
 
