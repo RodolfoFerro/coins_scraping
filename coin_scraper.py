@@ -1,7 +1,8 @@
 # =========================================================
-# Author: Rodolfo Ferro Pérez
-# University of Guanajuato feat. Harvard Internship
-# Email:  ferro@cimat.mx
+# Harvard University
+# Authors: 
+#     Rodolfo Ferro Pérez (ferro@cimat.mx)
+#     Carlos Outeiral Rubiera (couteiral@gmail.com)
 #
 # Basic coin scraper for http://numismatics.org/ocre/
 # =========================================================
@@ -83,39 +84,54 @@ def clean_df(df):
     return df.dropna()
 
 
-def save_df(df):
+def save_df(df, name="dataframe.csv"):
     """Function to save the obtained dataframe."""
-    df.to_csv("dataframe.csv")
+    df.to_csv(name)
     return
 
 def download_images(df):
     """Function to download the images."""
+    
+    # Preload data:
     heads = df['Obverse_URL']
     tails = df['Reverse_URL']
+    df_index = 1
 
+    # Create directories:
     if not os.path.exists('./images/'):
         os.mkdir('./images/')
     os.chdir('./images')
 
+    # Download images:
     for i, (url1, url2) in enumerate(zip(heads, tails)):
+        file1, file2 = None, None
 
-        if not os.path.exists('./images/heads{:05d}.jpg'.format(i)):
-            try:
-                file1 = wget.download(url1)
+        print('\nTrying to download image {}. \ndf_index = {}'.format(i+1, df_index))
+        try:
+            # Try to download images:
+            file1 = wget.download(url1)
+            file2 = wget.download(url2)
+            if file1 is None or file2 is None:
+                # Set None urls for posterior deletion:
+                df['Obverse_URL'][i] = None
+                df['Reverse_URL'][i] = None
+            else:
+                # Rename files:
                 ext1 = file1[file1.rfind('.'):]
-                os.rename(file1, 'heads{:05d}{}'.format(i+1, ext1))
-            except Exception:
-                print('Could not download heads{:05d} from {}'.format(i, url1))
-
-        if not os.path.exists('./images/tails{:05d}.jpg'.format(i)):
-            try:
-                file2 = wget.download(url2)
                 ext2 = file2[file2.rfind('.'):]
-                os.rename(file2, 'tails{:05d}{}'.format(i+1, ext2))
-            except Exception:
-                print('Could not download tails{:05d} from {}'.format(i, url2))
-
-    return
+                os.rename(file1, 'heads{:05d}{}'.format(df_index, ext1))
+                os.rename(file2, 'tails{:05d}{}'.format(df_index, ext2))
+                df_index += 1
+        except:
+            pass
+    
+    # Print basic info :
+    print("Total images downloaded: \n\t{} from {}".format(df_index, len(heads)))
+    print("Number of indices dropped off: {}".format(len(indices)))
+    
+    # Clean dataframe from by setting null values from unknown images:
+    df = clean_df(df)
+    return df
 
 
 # =========================================================
@@ -124,14 +140,16 @@ def download_images(df):
 
 if __name__ == '__main__':
     # Number of pages to be extracted:
-    number_pages = 590
+    # number_pages = 590
 
     # Scraper:
-    df = coin_scraper(number_pages)
-    df = clean_df(df)
+    # df = coin_scraper(number_pages)
+    # df = clean_df(df)
 
     # Save into csv:
-    save_df(df)
+    # save_df(df)
 
     # Download images
-    download_images(df)
+    df = pd.read_csv('dataframe.csv') # Load pre-downloaded dataframe
+    df = download_images(df)
+    save_df(df, name="coins.csv")     # Save new version
