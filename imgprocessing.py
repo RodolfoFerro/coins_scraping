@@ -1,8 +1,31 @@
+# =========================================================
+# Harvard University
+# Authors: 
+#     Rodolfo Ferro Pérez (ferro@cimat.mx)
+#     Carlos Outeiral Rubiera (couteiral@gmail.com)
+#     Daniel Haas (dih16@hampshire.edu)
+#
+# Basic image utilities library for imgs pre-processing.
+# =========================================================
+
+
+# =========================================================
+# Importing our libs:
+# =========================================================
 import cv2
 import numpy as np
 import random
 from itertools import chain
 
+# =========================================================
+# Defining or funtions:
+# =========================================================
+
+# =========================================================
+# MAIN
+# =========================================================
+
+if __name__ == '__main__':
 def scaleImg(img):
     return cv2.resize(img, (128, 128), interpolation = cv2.INTER_AREA)
 
@@ -53,3 +76,11 @@ def adjustGamma(image, gamma=1.0):
 	invGamma = 1.0 / gamma
 	table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
 	return cv2.LUT(image, table)
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+if __name__ == '__main__':
+    print("Here!")

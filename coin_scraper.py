@@ -3,6 +3,7 @@
 # Authors: 
 #     Rodolfo Ferro Pérez (ferro@cimat.mx)
 #     Carlos Outeiral Rubiera (couteiral@gmail.com)
+#     Daniel Haas (dih16@hampshire.edu)
 #
 # Basic coin scraper for http://numismatics.org/ocre/
 # =========================================================
